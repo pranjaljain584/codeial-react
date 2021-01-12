@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {fetchPosts} from '../actions/posts';
+import PostsList from './PostsList' ;
 
 class App extends Component {
 
@@ -9,13 +10,14 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props) ;
+    const { posts } = this.props;
     return (
       <div>
-        App
+        <PostsList posts={posts} />
       </div>
     );
   }
+
 }
 
 function mapStateToProps(state) {
