@@ -15,3 +15,8 @@ export const CLEAR_AUTH_STATE = 'CLEAR_AUTH_STATE' ;
 export const SIGNUP_START = 'SIGNUP_START' ;
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS' ;
 export const SIGNUP_FAILED  = 'SIGNUP_FAILED' ;
+
+// edit user actions 
+
+export const EDIT_USER_SUCCESSFUL = 'EDIT_USER_SUCCESSFUL' ;
+export const EDIT_USER_FAILED = 'EDIT_USER_FAILED' ;
