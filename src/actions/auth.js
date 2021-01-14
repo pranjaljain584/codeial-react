@@ -2,6 +2,7 @@ import { APIUrls } from '../helper/urls';
 import { getFormBody } from '../helper/utils';
 import {
   AUTHENTICATE_USER,
+  CLEAR_AUTH_STATE,
   LOGIN_FAILED,
   LOGIN_START,
   LOGIN_SUCCESS,
@@ -46,6 +47,7 @@ export function login(email, password) {
         console.log('data', data);
         if (data.success) {
           // dispatch action to save user
+          localStorage.setItem('token', data.data.token);
           dispatch(loginSuccess(data.data.user));
           return;
         }
@@ -108,11 +110,18 @@ export function signUp(email, password, confirmPassword, name) {
         console.log('data', data);
         if (data.success) {
           // dispatch action to save user
-          localStorage.setItem('token' , data.data.token) ;
+          localStorage.setItem('token', data.data.token) ;
           dispatch(signUpSuccess(data.data.user));
           return;
         }
+
         dispatch(signUpFailed(data.message));
       });
   };
+}
+
+export function clearAuthState() {
+  return{
+    type: CLEAR_AUTH_STATE 
+  }
 }
