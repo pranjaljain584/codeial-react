@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 
 class Navbar extends Component {
-  
+
   logoutUser = () => {
     localStorage.removeItem('token');
     this.props.dispatch(logout());
@@ -53,11 +53,13 @@ class Navbar extends Component {
         <div className="right-nav">
           {auth.isLoggedIn && (
             <div className="user">
+              <Link to="/settings" >
               <img
                 src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
                 alt="user-dp"
                 id="user-dp"
               />
+              </Link>
               <span> {auth.user.name} </span>
             </div>
           )}

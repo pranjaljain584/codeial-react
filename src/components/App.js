@@ -1,37 +1,54 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route , Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
 import { fetchPosts } from '../actions/posts';
-import { Home, Navbar, Page404 ,Login , SignUp } from './';
+import { Home, Navbar, Page404, Login, SignUp } from './';
 import { authenticateUser } from '../actions/auth';
 
+const Settings = () => <div>Settings</div>;
+
+const PrivateRoute = (privateRouteProps) => {
+  const { isLoggedIn, path, component: Component } = privateRouteProps;
+
+  return (
+    <Route
+      path={path}
+      render={(props) => {
+        return isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />;
+      }}
+    />
+  );
+};
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
 
-    const token = localStorage.getItem('token') ;
+    const token = localStorage.getItem('token');
 
-    if(token){
-      const user = jwtDecode(token) ;
+    if (token) {
+      const user = jwtDecode(token);
 
-      this.props.dispatch(authenticateUser({
-        email:user.email ,
-        _id: user._id ,
-        name: user.name
-      }))
-
-      // console.log('user token' , user) ;
-      
+      this.props.dispatch(
+        authenticateUser({
+          email: user.email,
+          _id: user._id,
+          name: user.name,
+        })
+      );
     }
-
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, auth } = this.props;
     return (
       <Router>
         <div>
@@ -48,6 +65,11 @@ class App extends Component {
 
             <Route path="/login" component={Login} />
             <Route path="/register" component={SignUp} />
+            <PrivateRoute
+              path="/settings"
+              component={Settings}
+              isLoggedIn={auth.isLoggedIn}
+            />
             <Route component={Page404} />
           </Switch>
         </div>
@@ -63,6 +85,7 @@ App.propTypes = {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
+    auth: state.auth,
   };
 }
 
