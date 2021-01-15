@@ -4,6 +4,7 @@ export const APIUrls = {
   login: () => `${ROOT_API}/users/login`,
   signup: () => `${ROOT_API}/users/signup`,
   editProfile: () => `${ROOT_API}/users/edit`,
+  userProfile: (userId) => `${ROOT_API}/users/${userId}`,
   fetchPosts: (page = 1, limit = 5) =>
     `${ROOT_API}/posts?page=${page}&limit=${limit}`,
 };

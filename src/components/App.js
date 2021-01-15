@@ -10,7 +10,15 @@ import {
 import jwtDecode from 'jwt-decode';
 
 import { fetchPosts } from '../actions/posts';
-import { Home, Navbar, Page404, Login, SignUp, Settings } from './';
+import {
+  Home,
+  Navbar,
+  Page404,
+  Login,
+  SignUp,
+  Settings,
+  UserProfile,
+} from './';
 import { authenticateUser } from '../actions/auth';
 import { getAuthTokenFromLocalStorage } from '../helper/utils';
 
@@ -42,7 +50,7 @@ class App extends Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
 
-    const token = getAuthTokenFromLocalStorage() ;
+    const token = getAuthTokenFromLocalStorage();
 
     if (token) {
       const user = jwtDecode(token);
@@ -59,6 +67,7 @@ class App extends Component {
 
   render() {
     const { posts, auth } = this.props;
+    console.log('this.props.posts', this.props.posts);
     return (
       <Router>
         <div>
@@ -75,6 +84,11 @@ class App extends Component {
 
             <Route path="/login" component={Login} />
             <Route path="/register" component={SignUp} />
+            <PrivateRoute
+              path="/user/:id"
+              component={UserProfile}
+              isLoggedIn={auth.isLoggedIn}
+            />
             <PrivateRoute
               path="/settings"
               component={Settings}
