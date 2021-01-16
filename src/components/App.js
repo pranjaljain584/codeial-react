@@ -18,7 +18,6 @@ import {
   SignUp,
   Settings,
   UserProfile,
-  FriendList,
 } from './';
 import { authenticateUser } from '../actions/auth';
 import { getAuthTokenFromLocalStorage } from '../helper/utils';
@@ -121,6 +120,7 @@ function mapStateToProps(state) {
   return {
     posts: state.posts,
     auth: state.auth,
+    friends: state.friends
   };
 }
 

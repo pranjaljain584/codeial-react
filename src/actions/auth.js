@@ -171,4 +171,3 @@ export function editUser(name, password, confirmPassword, userId) {
       });
   };
 }
-
