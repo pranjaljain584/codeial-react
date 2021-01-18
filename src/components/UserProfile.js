@@ -11,7 +11,7 @@ class UserProfile extends Component {
     this.state = {
       success: null,
       error: null,
-      successMessage: ''
+      successMessage: '',
     };
   }
 
@@ -20,6 +20,24 @@ class UserProfile extends Component {
     if (match.params.id) {
       // dispatch an action
       this.props.dispatch(fetchUserProfile(match.params.id));
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      match: { params: prevParams },
+    } = prevProps;
+
+    const {
+      match: { params: currentParams },
+    } = this.props;
+
+    if (
+      prevParams &&
+      currentParams &&
+      prevParams.id !== currentParams.id
+    ) {
+      this.props.dispatch(fetchUserProfile(currentParams.id));
     }
   }
 
@@ -53,7 +71,7 @@ class UserProfile extends Component {
     if (data.success) {
       this.setState({
         success: true,
-        successMessage: 'Added Friend Successfuly'
+        successMessage: 'Added Friend Successfuly',
       });
       this.props.dispatch(addFriend(data.data.friendship));
     } else {
@@ -69,7 +87,7 @@ class UserProfile extends Component {
     const url = APIUrls.removeFriend(userId);
 
     const options = {
-      method:'POST' ,
+      method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
@@ -82,7 +100,7 @@ class UserProfile extends Component {
     if (data.success) {
       this.setState({
         success: true,
-        successMessage: 'Removed Friend Successfuly'
+        successMessage: 'Removed Friend Successfuly',
       });
       // console.log("DATA" , data) ;
       this.props.dispatch(removeFriend(userId));
@@ -96,7 +114,7 @@ class UserProfile extends Component {
 
   render() {
     const { userProfile } = this.props;
-    const { error,success , successMessage } = this.state;
+    const { error, success, successMessage } = this.state;
 
     const user = userProfile.user;
 
@@ -144,9 +162,7 @@ class UserProfile extends Component {
           )}
 
           {success && (
-            <div className="alert success-dailog">
-              {successMessage}
-            </div>
+            <div className="alert success-dailog">{successMessage}</div>
           )}
           {error && <div className="alert error-dailog">{error} </div>}
         </div>

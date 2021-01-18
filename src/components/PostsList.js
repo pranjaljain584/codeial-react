@@ -11,7 +11,7 @@ class PostsList extends Component {
       <div className="posts-list">
         <CreatePost />
         {posts.map((post) => (
-          <Post post={post} />
+          <Post post={post} key={post._id} />
         ))}
       </div>
     );
